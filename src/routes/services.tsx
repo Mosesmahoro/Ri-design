@@ -1,0 +1,84 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Palette, Globe, Smartphone, Code2, Lightbulb, ArrowRight } from "lucide-react";
+
+export const Route = createFileRoute("/services")({
+  head: () => ({
+    meta: [
+      { title: "Services — Ri Designs" },
+      { name: "description", content: "Graphic design, web development, mobile apps, custom software and consultancy services by Ri Designs." },
+      { property: "og:title", content: "Services — Ri Designs" },
+      { property: "og:description", content: "Graphic design, web, mobile, software and consultancy." },
+    ],
+    links: [{ rel: "canonical", href: "/services" }],
+  }),
+  component: ServicesPage,
+});
+
+const groups = [
+  {
+    icon: Palette,
+    title: "Graphic Design",
+    items: ["Logo Design", "Posters", "Flyers", "Business Cards", "Banners", "Social Media Graphics", "Branding Packages", "Jersey Designs"],
+  },
+  {
+    icon: Globe,
+    title: "Web Development",
+    items: ["Personal Websites", "Company Websites", "E-Commerce", "School Systems", "Church Websites", "NGO Websites"],
+  },
+  {
+    icon: Smartphone,
+    title: "Mobile Applications",
+    items: ["Android Apps", "Cross-platform Apps", "Business Apps", "Educational Apps"],
+  },
+  {
+    icon: Code2,
+    title: "Software Engineering",
+    items: ["Management Systems", "Point of Sale", "Inventory Systems", "School Systems", "Hospital Systems", "Custom Solutions"],
+  },
+  {
+    icon: Lightbulb,
+    title: "Consultancy",
+    items: ["System Analysis", "Database Design", "UI/UX Design", "Software Documentation", "Technical Support"],
+  },
+];
+
+function ServicesPage() {
+  return (
+    <div className="mx-auto max-w-7xl px-6 py-20">
+      <p className="text-xs font-semibold uppercase tracking-widest text-primary">Services</p>
+      <h1 className="mt-2 text-5xl font-black tracking-tight md:text-6xl">
+        Everything you need to <span className="bg-[image:var(--gradient-primary)] bg-clip-text text-transparent">launch & grow</span>
+      </h1>
+      <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+        Pick a single service or combine them into a complete package. Every project
+        includes a clear quote, milestones and source files.
+      </p>
+      <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {groups.map(({ icon: Icon, title, items }) => (
+          <article key={title} className="rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/50">
+            <div className="grid h-12 w-12 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground shadow-[var(--shadow-glow)]">
+              <Icon size={22} />
+            </div>
+            <h2 className="mt-5 text-xl font-bold">{title}</h2>
+            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+              {items.map((i) => (
+                <li key={i} className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" /> {i}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+      <div className="mt-16 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border bg-card p-8">
+        <div>
+          <h3 className="text-2xl font-bold">Need something custom?</h3>
+          <p className="mt-2 text-sm text-muted-foreground">Send us your brief — we'll respond with a quote in 24 hours.</p>
+        </div>
+        <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-[image:var(--gradient-primary)] px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)]">
+          Request a quote <ArrowRight size={16} />
+        </Link>
+      </div>
+    </div>
+  );
+}
