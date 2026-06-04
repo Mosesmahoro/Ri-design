@@ -11,5 +11,7 @@ services:
       # Example: add API keys or other secrets here. For secrets, consider adding them in the Render dashboard instead of committing.
       # - key: MY_API_KEY
       #   value: "your-api-key-here"
-    customDomains:
-      - ri.example.com
+    redirects:
+      - type: rewrite
+        source: "/(.*)"
+        destination: "/index.html"
