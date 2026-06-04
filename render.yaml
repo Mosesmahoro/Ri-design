@@ -13,5 +13,6 @@ services:
       #   value: "your-api-key-here"
     redirects:
       - type: rewrite
-        source: "/(.*)"
+        # Rewrite all paths back to index.html to support client-side routing (SPA)
+        source: "/**"
         destination: "/index.html"
