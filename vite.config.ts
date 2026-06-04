@@ -8,4 +8,8 @@ export default defineConfig({
   css: {
     postcss: {},
   },
+  build: {
+    // Increase chunk size warning limit to reduce noise for large media assets
+    chunkSizeWarningLimit: 2000,
+  },
 });
