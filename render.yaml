@@ -3,7 +3,7 @@ services:
     name: ri-creative-hub
     env: static
     branch: main
-    buildCommand: npm ci && npm run build
+    buildCommand: npm install && npm run build
     publishPath: dist
     envVars:
       - key: NODE_ENV
