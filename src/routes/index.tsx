@@ -2,11 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Palette, Globe, Smartphone, Code2, Sparkles, Star, CheckCircle2, MessageSquare } from "lucide-react";
 import { ResponsiveImage } from "../components/responsive-image";
 
-// Image paths - update these based on your image folder structure
-const heroBg = "/src/assets/images/hero/hero-bg.jpg";
-const workWeb = "/src/assets/images/portfolio/work-web.jpg";
-const workMobile = "/src/assets/images/portfolio/work-mobile.jpg";
-const workSoftware = "/src/assets/images/portfolio/work-software.jpg";
+import heroBg from "@/assets/images/hero/hero-bg.jpg";
+import workWeb from "@/assets/images/portfolio/work-web.jpg";
+import workMobile from "@/assets/images/portfolio/work-mobile.jpg";
+import workSoftware from "@/assets/images/portfolio/work-software.jpg";
+import refugee2024 from "@/assets/images/portfolio/refugee-2024.jpg";
+import posterGrowBusiness from "@/assets/images/portfolio/poster-grow-business.jpg";
+import posterCreative from "@/assets/images/portfolio/poster-creative.jpg";
+import mothersDay from "@/assets/images/portfolio/mothers-day.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,10 +32,10 @@ const services = [
 ];
 
 const works = [
-  { img: "/src/assets/images/portfolio/refugee-2024.jpg", title: "World Refugee Day Campaign", tag: "Graphic Design" },
-  { img: "/src/assets/images/portfolio/poster-grow-business.jpg", title: "Ri Designs Brand Promo", tag: "Graphic Design" },
-  { img: "/src/assets/images/portfolio/poster-creative.jpg", title: "Creative Designer Poster", tag: "Graphic Design" },
-  { img: "/src/assets/images/portfolio/mothers-day.jpg", title: "Mother's Day Greeting", tag: "Graphic Design" },
+  { img: refugee2024, title: "World Refugee Day Campaign", tag: "Graphic Design" },
+  { img: posterGrowBusiness, title: "Ri Designs Brand Promo", tag: "Graphic Design" },
+  { img: posterCreative, title: "Creative Designer Poster", tag: "Graphic Design" },
+  { img: mothersDay, title: "Mother's Day Greeting", tag: "Graphic Design" },
   { img: workWeb, title: "E-Commerce Platform", tag: "Web Development" },
   { img: workMobile, title: "Fintech App", tag: "Mobile App" },
   { img: workSoftware, title: "School Management System", tag: "Software" },
