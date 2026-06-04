@@ -5,3 +5,11 @@ services:
     branch: main
     buildCommand: npm ci && npm run build
     publishPath: dist
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Example: add API keys or other secrets here. For secrets, consider adding them in the Render dashboard instead of committing.
+      # - key: MY_API_KEY
+      #   value: "your-api-key-here"
+    customDomains:
+      - ri.example.com
