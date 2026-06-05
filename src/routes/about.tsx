@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart, Rocket, Shield } from "lucide-react";
+import { useState, type FormEvent } from "react";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -15,6 +16,43 @@ export const Route = createFileRoute("/about")({
 });
 
 function AboutPage() {
+  const [reviews, setReviews] = useState([
+    {
+      name: "Mary Banda",
+      role: "Founder, Vital Church",
+      comment: "Ri Designs built our website quickly and gave us a polished brand identity. The support after launch was excellent.",
+    },
+    {
+      name: "James Phiri",
+      role: "School Director",
+      comment: "The team understood our needs and delivered a beautiful design with a clear, easy-to-manage CMS.",
+    },
+  ]);
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleReviewSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const name = formData.get("name")?.toString().trim() ?? "";
+    const role = formData.get("role")?.toString().trim() ?? "";
+    const comment = formData.get("comment")?.toString().trim() ?? "";
+
+    if (!name || !role || !comment) {
+      setFeedbackMessage("Please fill in every field before submitting.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setReviews(current => [{ name, role, comment }, ...current]);
+      setFeedbackMessage("Thanks for your review! It has been added below.");
+      setIsSubmitting(false);
+      event.currentTarget.reset();
+      window.scrollTo({ top: event.currentTarget.offsetTop - 60, behavior: "smooth" });
+    }, 250);
+  };
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-20">
       <p className="text-xs font-semibold uppercase tracking-widest text-primary">About</p>
@@ -62,27 +100,82 @@ function AboutPage() {
             branding and reliable digital experiences.
           </p>
         </div>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2">
-          {[
-            {
-              name: "Mary Banda",
-              role: "Founder, Vital Church",
-              comment: "Ri Designs built our website quickly and gave us a polished brand identity. The support after launch was excellent.",
-            },
-            {
-              name: "James Phiri",
-              role: "School Director",
-              comment: "The team understood our needs and delivered a beautiful design with a clear, easy-to-manage CMS.",
-            },
-          ].map((review) => (
-            <div key={review.name} className="rounded-3xl border border-border bg-background p-6">
-              <p className="text-sm leading-relaxed text-muted-foreground">{review.comment}</p>
-              <div className="mt-5">
-                <p className="font-semibold">{review.name}</p>
-                <p className="text-sm text-muted-foreground">{review.role}</p>
+        <div className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_0.9fr]">
+          <div className="grid gap-6 sm:grid-cols-2">
+            {reviews.map((review) => (
+              <div key={`${review.name}-${review.role}`} className="rounded-3xl border border-border bg-background p-6">
+                <p className="text-sm leading-relaxed text-muted-foreground">{review.comment}</p>
+                <div className="mt-5">
+                  <p className="font-semibold">{review.name}</p>
+                  <p className="text-sm text-muted-foreground">{review.role}</p>
+                </div>
               </div>
+            ))}
+          </div>
+
+          <div className="rounded-3xl border border-border bg-background p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-primary">Leave feedback</p>
+                <h3 className="mt-2 text-xl font-bold">Add your review</h3>
+              </div>
+              {isSubmitting && <span className="text-xs font-medium text-primary">Submitting…</span>}
             </div>
-          ))}
+            <p className="mt-3 text-sm text-muted-foreground">
+              Share your experience to help future customers know what to expect from Ri Designs.
+            </p>
+            <form className="mt-6 space-y-4" onSubmit={handleReviewSubmit}>
+              <div>
+                <label htmlFor="name" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  required
+                  className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none focus:border-primary"
+                  placeholder="Your full name"
+                />
+              </div>
+              <div>
+                <label htmlFor="role" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  Role or business
+                </label>
+                <input
+                  id="role"
+                  name="role"
+                  required
+                  className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none focus:border-primary"
+                  placeholder="e.g. Founder, School Director"
+                />
+              </div>
+              <div>
+                <label htmlFor="comment" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  Review
+                </label>
+                <textarea
+                  id="comment"
+                  name="comment"
+                  required
+                  rows={5}
+                  className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground outline-none focus:border-primary"
+                  placeholder="Tell us about your experience working with Ri Designs"
+                />
+              </div>
+              {feedbackMessage ? (
+                <p className="rounded-2xl border border-border px-4 py-3 text-sm text-foreground">
+                  {feedbackMessage}
+                </p>
+              ) : null}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex items-center justify-center rounded-full bg-[image:var(--gradient-primary)] px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Submit review
+              </button>
+            </form>
+          </div>
         </div>
       </section>
     </div>
