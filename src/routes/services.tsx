@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Palette, Globe, Smartphone, Code2, Lightbulb, ArrowRight, MessageSquare, CalendarDays } from "lucide-react";
+import { Palette, Globe, Smartphone, Code2, Lightbulb, ArrowRight, MessageSquare, CalendarDays, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -92,14 +92,25 @@ function ServicesPage() {
           </article>
         ))}
       </div>
-      <div className="mt-16 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border bg-card p-8">
-        <div>
-          <h3 className="text-2xl font-bold">Need something custom?</h3>
-          <p className="mt-2 text-sm text-muted-foreground">Send us your brief — we'll respond with a quote in 24 hours.</p>
+      <div className="mt-16 grid gap-6 md:grid-cols-2">
+        <div className="flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border bg-card p-8">
+          <div>
+            <h3 className="text-2xl font-bold">Need something custom?</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Send us your brief — we'll respond with a quote in 24 hours.</p>
+          </div>
+          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-[image:var(--gradient-primary)] px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)]">
+            Request a quote <ArrowRight size={16} />
+          </Link>
         </div>
-        <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-[image:var(--gradient-primary)] px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)]">
-          Request a quote <ArrowRight size={16} />
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border bg-card p-8">
+          <div>
+            <h3 className="text-2xl font-bold">Check pricing & add-ons</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Message us on WhatsApp for detailed pricing, package options, and additional services.</p>
+          </div>
+          <a href="https://wa.me/265882068557" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-green-700 transition-colors">
+            Message on WhatsApp <MessageCircle size={16} />
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -134,11 +134,11 @@ function Index() {
       } else if (patterns.greeting.test(normalized)) {
         response = "Hello! I'm the Ri Designs assistant. I know the whole site and can guide you through services, booking, payments, and working with us.";
       } else if (patterns.pricing.test(normalized)) {
-        response = "Pricing depends on the scope of your project. Simple branding jobs have fixed fees, while websites, apps, and custom software are quoted after a short discovery call to understand your exact needs.";
+        response = "Pricing depends on the scope of your project. Simple branding jobs have fixed fees, while websites, apps, and custom software are quoted after discovery. For detailed pricing and package options, message us on WhatsApp: https://wa.me/265882068557";
       } else if (patterns.booking.test(normalized)) {
         response = "You can book a consultation using the form on this page. Select your service type, date and time, and I’ll give you the booking and Centenary Bank payment details.";
       } else if (patterns.payment.test(normalized)) {
-        response = "We accept Centenary Bank payments. Use Account name Moses Mahoro, Account number 5083801445029, Branch Blantyre. After payment, send confirmation to our WhatsApp or email so we can begin your project.";
+        response = "We accept Centenary Bank, Airtel Money, and TNM Mpamba. Primary: Centenary Bank account name Moses Mahoro, Account number 5083801445029, Branch Blantyre. For other payment methods and current rates, message WhatsApp: https://wa.me/265882068557";
       } else if (patterns.process.test(normalized)) {
         response = "Our process starts with a consultation, followed by a quote. Then we move into design or development, and finally launch with support. I can explain each step for your chosen service.";
       } else if (patterns.portfolio.test(normalized)) {
