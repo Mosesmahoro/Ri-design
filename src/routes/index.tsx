@@ -86,18 +86,67 @@ function Index() {
 
     setTimeout(() => {
       const normalized = userMessage.toLowerCase();
-      let response = "Thanks for your question! I can help you understand our services, send a booking link, or explain payment steps.";
+      let response = "I’m here to help — ask me anything about our services, booking, pricing, or project support.";
 
-      if (normalized.includes("price") || normalized.includes("cost") || normalized.includes("quote")) {
-        response = "We offer custom pricing depending on the scope. For example, logo design starts from a small fixed fee, while websites and apps are quoted after a short consultation.";
-      } else if (normalized.includes("website") || normalized.includes("web")) {
-        response = "A website package can include design, development, and support. I can recommend the best option based on your audience and budget.";
-      } else if (normalized.includes("app") || normalized.includes("mobile")) {
-        response = "Mobile apps can be built for Android or cross-platform. I can help you choose a plan that fits your needs and timeline.";
-      } else if (normalized.includes("payment") || normalized.includes("pay")) {
-        response = "We accept Centenary Bank payments. After booking, you will receive account details and instructions to complete the transfer.";
-      } else if (normalized.includes("book") || normalized.includes("appointment")) {
-        response = "Use the booking form on this page to schedule a consultation. Choose your service, date and time, then follow the Centenary Bank payment instructions.";
+      const siteKnowledge: Record<string, string> = {
+        about: "Ri Designs is a Malawi-based creative studio and software house led by Moses Mahoro. We create bold brands, fast websites, mobile apps, custom software, and consultancy support for businesses, churches, schools, and NGOs.",
+        contact: "The Contact page lets you send your project brief, request a quote, or ask for a consultation. It includes email, phone/WhatsApp, and contact details for quick replies.",
+        portfolio: "The Portfolio page shows recent work in graphic design, web development, mobile apps, and software. It helps you understand our style and the types of projects we deliver.",
+        services: "The Services page lists Graphic Design, Web Development, Mobile Applications, Software Engineering, and Consultancy. Each service can be combined into a custom package to fit your needs.",
+        chatbot: "This chat assistant knows the full site and can guide customers through services, booking, payments, and how to work with Ri Designs.",
+        payment: "We accept Centenary Bank, Airtel Money, and TNM Mpamba. For consultation bookings, Centenary Bank is the main method: Account name Moses Mahoro, Account number 5083801445029, Branch Blantyre.",
+        booking: "The booking form lets you reserve a consultation, choose your service type, date, and time, then receive payment instructions. It is the easiest way to start working with us.",
+        reviews: "Customer reviews on the About page show how previous clients felt about our work. They help you understand quality, reliability, and satisfaction.",
+        process: "The site describes our process as brief, quote, build, and launch. We focus on strong communication, clear milestones, and support after delivery.",
+      };
+
+      const serviceDetails: Record<string, string> = {
+        graphic: "Graphic design at Ri Designs includes logo creation, posters, flyers, business cards, branding packages, and jersey designs. We create visual identities that work in print and online.",
+        logo: "A logo from us is tailored to your brand personality and works across social media, print, signage, and websites. You receive source files for future use.",
+        website: "A website package includes UX/UI design, responsive development, deployment, and support. We build websites for companies, schools, churches, NGOs, and e-commerce with clean layouts and fast performance.",
+        web: "Web development covers personal sites, company websites, online stores, and information systems. We build sites that are easy to navigate, update, and scale.",
+        mobile: "Mobile app development includes Android and cross-platform apps. We help you build business apps, educational tools, and user-friendly mobile experiences for your customers.",
+        app: "App development includes planning, design, development, testing, and launch. We can build fintech tools, booking systems, management apps, and other custom mobile solutions.",
+        software: "Custom software solutions include POS systems, inventory management, school systems, hospital systems, and other business tools. We build software to automate workflows and improve operations.",
+        consultancy: "Consultancy helps you define project requirements, choose the right technology, and plan the best workflow. We also provide UI/UX advice, system analysis, and technical guidance.",
+        branding: "Branding includes color palettes, typography, logos, visual identity, and brand guidelines. We design consistent brands that make your business memorable across every channel.",
+      };
+
+      const patterns = {
+        greeting: /\b(hi|hello|hey|good morning|good afternoon|good evening)\b/,
+        site: /\b(site|website|how it works|function|feature|page|navigation|home|about|services|contact|portfolio|review|reviews|payment methods|payment options|booking form|chatbot|assistant)\b/,
+        pricing: /\b(price|cost|quote|budget|fee|rate|estimate|pricing)\b/,
+        booking: /\b(book|appointment|schedule|slot|availability|consultation|meeting|reserve|booked)\b/,
+        payment: /\b(payment|pay|bank|centenary|transfer|mpampa|airtel|account|invoice|method)\b/,
+        process: /\b(process|timeline|steps|how|deliver|launch|support|workflow|phase|order)\b/,
+        portfolio: /\b(portfolio|work|project|example|case|client|testimonial|sample)\b/,
+        team: /\b(team|about|who|ri designs|moses|mahoro|company|studio)\b/,
+      };
+
+      const serviceKeyword = Object.keys(serviceDetails).find((word) => normalized.includes(word));
+      const siteKeyword = Object.keys(siteKnowledge).find((word) => normalized.includes(word));
+      if (serviceKeyword) {
+        response = serviceDetails[serviceKeyword];
+      } else if (siteKeyword) {
+        response = siteKnowledge[siteKeyword];
+      } else if (patterns.site.test(normalized)) {
+        response = "Ri Designs has several key features: About page with customer reviews, Services page listing all solutions, Portfolio showing our work, Contact page for inquiries, an AI Chatbot assistant (me!), and an Online Booking form. What would you like to know more about?";
+      } else if (patterns.greeting.test(normalized)) {
+        response = "Hello! I'm the Ri Designs assistant. I know the whole site and can guide you through services, booking, payments, and working with us.";
+      } else if (patterns.pricing.test(normalized)) {
+        response = "Pricing depends on the scope of your project. Simple branding jobs have fixed fees, while websites, apps, and custom software are quoted after a short discovery call to understand your exact needs.";
+      } else if (patterns.booking.test(normalized)) {
+        response = "You can book a consultation using the form on this page. Select your service type, date and time, and I’ll give you the booking and Centenary Bank payment details.";
+      } else if (patterns.payment.test(normalized)) {
+        response = "We accept Centenary Bank payments. Use Account name Moses Mahoro, Account number 5083801445029, Branch Blantyre. After payment, send confirmation to our WhatsApp or email so we can begin your project.";
+      } else if (patterns.process.test(normalized)) {
+        response = "Our process starts with a consultation, followed by a quote. Then we move into design or development, and finally launch with support. I can explain each step for your chosen service.";
+      } else if (patterns.portfolio.test(normalized)) {
+        response = "We’ve delivered branding, websites, mobile apps, and custom software. Check the portfolio section for examples, or ask me what type of work fits your business best.";
+      } else if (patterns.team.test(normalized)) {
+        response = "Ri Designs is a Malawi-based creative studio led by Moses Mahoro. We combine strong visuals and reliable systems for clients, churches, schools, and NGOs.";
+      } else {
+        response = "I can explain any Ri Designs service and help you choose the best option. Ask me about graphic design, websites, apps, software systems, or how to book and pay for a consultation.";
       }
 
       setChatMessages((current) => [...current, { from: "bot", text: response }]);
