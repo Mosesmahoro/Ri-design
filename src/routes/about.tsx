@@ -67,14 +67,12 @@ function AboutPage() {
             {
               name: "Mary Banda",
               role: "Founder, Vital Church",
-              comment: "Ri Designs built our website quickly and gave us a polished brand
-                identity. The support after launch was excellent.",
+              comment: "Ri Designs built our website quickly and gave us a polished brand identity. The support after launch was excellent.",
             },
             {
               name: "James Phiri",
               role: "School Director",
-              comment: "The team understood our needs and delivered a beautiful design
-                with a clear, easy-to-manage CMS.",
+              comment: "The team understood our needs and delivered a beautiful design with a clear, easy-to-manage CMS.",
             },
           ].map((review) => (
             <div key={review.name} className="rounded-3xl border border-border bg-background p-6">
