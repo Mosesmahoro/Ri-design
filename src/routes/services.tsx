@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Palette, Globe, Smartphone, Code2, Lightbulb, ArrowRight } from "lucide-react";
+import { Palette, Globe, Smartphone, Code2, Lightbulb, ArrowRight, MessageSquare, CalendarDays } from "lucide-react";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -39,6 +39,28 @@ const groups = [
     icon: Lightbulb,
     title: "Consultancy",
     items: ["System Analysis", "Database Design", "UI/UX Design", "Software Documentation", "Technical Support"],
+  },
+  {
+    icon: MessageSquare,
+    title: "AI Chatbot Assistant",
+    items: [
+      "24/7 automated customer support",
+      "Answer FAQs and recommend services",
+      "Guide users through project requests",
+      "Provide pricing and payment guidance",
+      "Collect contact leads for follow-up",
+    ],
+  },
+  {
+    icon: CalendarDays,
+    title: "Online Appointment Booking",
+    items: [
+      "View available time slots",
+      "Book consultations online",
+      "Choose a consultation type",
+      "Receive confirmations and reminders",
+      "Cancel or reschedule with ease",
+    ],
   },
 ];
 
