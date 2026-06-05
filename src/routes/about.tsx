@@ -51,6 +51,42 @@ function AboutPage() {
           Work with us
         </Link>
       </div>
+      <section className="mt-14 rounded-2xl border border-border bg-card p-8">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Client reviews</p>
+            <h2 className="mt-2 text-2xl font-bold">What customers say</h2>
+          </div>
+          <p className="max-w-2xl text-sm text-muted-foreground">
+            Hear from businesses, churches, and NGOs that trusted us to deliver bold
+            branding and reliable digital experiences.
+          </p>
+        </div>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          {[
+            {
+              name: "Mary Banda",
+              role: "Founder, Vital Church",
+              comment: "Ri Designs built our website quickly and gave us a polished brand
+                identity. The support after launch was excellent.",
+            },
+            {
+              name: "James Phiri",
+              role: "School Director",
+              comment: "The team understood our needs and delivered a beautiful design
+                with a clear, easy-to-manage CMS.",
+            },
+          ].map((review) => (
+            <div key={review.name} className="rounded-3xl border border-border bg-background p-6">
+              <p className="text-sm leading-relaxed text-muted-foreground">{review.comment}</p>
+              <div className="mt-5">
+                <p className="font-semibold">{review.name}</p>
+                <p className="text-sm text-muted-foreground">{review.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
