@@ -53,6 +53,13 @@ const groups = [
     ],
   },
   {
+    icon: MessageCircle,
+    title: "Live Streaming",
+    items: [
+      "Either you have a wedding, meeting, Church programs, Funnel and you may have loved one who is far unable to attend, Ri Designs is here to help you with Live Streaming Services to reach your loved ones.",
+    ],
+  },
+  {
     icon: CalendarDays,
     title: "Online Appointment Booking",
     items: [
