@@ -1,15 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import workWeb from "@/assets/images/portfolio/work-web.jpg";
-import workMobile from "@/assets/images/portfolio/work-mobile.jpg";
-import workSoftware from "@/assets/images/portfolio/work-software.jpg";
-import workLogo from "@/assets/images/portfolio/work-logo.jpg";
-import workPoster from "@/assets/images/portfolio/work-poster.jpg";
-import workJersey from "@/assets/images/portfolio/work-jersey.jpg";
-import refugee2024 from "@/assets/images/portfolio/refugee-2024.jpg";
-import mothersDay from "@/assets/images/portfolio/mothers-day.jpg";
-import posterCreative from "@/assets/images/portfolio/poster-creative.jpg";
-import posterGrowBusiness from "@/assets/images/portfolio/poster-grow-business.jpg";
+import { useSiteData } from "../lib/site-data";
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({
@@ -24,24 +15,11 @@ export const Route = createFileRoute("/portfolio")({
   component: PortfolioPage,
 });
 
-const items = [
-  { img: refugee2024, title: "World Refugee Day 2024 Campaign", tag: "Graphic" },
-  { img: posterGrowBusiness, title: "Ri Designs — Grow Your Business", tag: "Graphic" },
-  { img: posterCreative, title: "Creative Graphic Designer Promo", tag: "Graphic" },
-  { img: mothersDay, title: "Happy Mother's Day Card", tag: "Graphic" },
-  { img: workLogo, title: "Brand & Logo Design", tag: "Graphic" },
-  { img: workPoster, title: "Poster Design Showcase", tag: "Graphic" },
-  { img: workJersey, title: "Jersey Branding Concept", tag: "Graphic" },
-  { img: workWeb, title: "Malaika E-Commerce", tag: "Web" },
-  { img: workMobile, title: "PayWave Wallet App", tag: "Mobile" },
-  { img: workSoftware, title: "BrightSchool SMS", tag: "Software" },
-];
-
 const filters = ["All", "Graphic", "Web", "Mobile", "Software"] as const;
 
 function PortfolioPage() {
   const [filter, setFilter] = useState<(typeof filters)[number]>("All");
-  const [portfolioItems, setPortfolioItems] = useState(items);
+  const { portfolioItems, addPortfolioItem, updatePortfolioItem } = useSiteData();
   const [newTitle, setNewTitle] = useState("");
   const [newTag, setNewTag] = useState<(typeof filters)[number]>("Graphic");
   const [newImage, setNewImage] = useState("");
@@ -75,13 +53,36 @@ function PortfolioPage() {
     setLoginMessage("");
   };
 
-  const addPortfolioItem = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNewImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setNewImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleUpdatedImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setUpdatedImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAddPortfolioItem = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newTitle || !newImage) return;
-    setPortfolioItems((current) => [
-      { img: newImage, title: newTitle, tag: newTag },
-      ...current,
-    ]);
+    addPortfolioItem({ img: newImage, title: newTitle, tag: newTag });
     setNewTitle("");
     setNewImage("");
     setNewTag("Graphic");
@@ -90,17 +91,11 @@ function PortfolioPage() {
   const updateSelectedItem = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedItem) return;
-    setPortfolioItems((current) =>
-      current.map((item, index) =>
-        index === selectedIndex
-          ? {
-              img: updatedImage || item.img,
-              title: updatedTitle || item.title,
-              tag: updatedTag,
-            }
-          : item,
-      ),
-    );
+    updatePortfolioItem(selectedIndex, {
+      img: updatedImage || selectedItem.img,
+      title: updatedTitle || selectedItem.title,
+      tag: updatedTag,
+    });
     setUpdatedImage("");
     setUpdatedTitle("");
   };
@@ -194,7 +189,7 @@ function PortfolioPage() {
 
         {isLoggedIn ? (
           <div className="mt-10 grid gap-8 lg:grid-cols-2">
-            <form onSubmit={addPortfolioItem} className="space-y-4 rounded-3xl border border-border bg-background p-6">
+            <form onSubmit={handleAddPortfolioItem} className="space-y-4 rounded-3xl border border-border bg-background p-6">
               <p className="text-sm font-semibold">Add a new portfolio item</p>
               <div>
                 <label htmlFor="newTitle" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Title</label>
@@ -222,14 +217,15 @@ function PortfolioPage() {
                 </select>
               </div>
               <div>
-                <label htmlFor="newImage" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Image URL</label>
+                <label htmlFor="newImage" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Upload image</label>
                 <input
                   id="newImage"
-                  value={newImage}
-                  onChange={(e) => setNewImage(e.target.value)}
-                  placeholder="https://example.com/image.jpg"
-                  className="mt-2 w-full rounded-lg border border-border bg-white px-4 py-3 text-sm text-foreground outline-none focus:border-primary"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleNewImageFile}
+                  className="mt-2 w-full rounded-lg border border-border bg-white px-4 py-3 text-sm text-foreground outline-none file:mr-4 file:rounded-full file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary-foreground focus:border-primary"
                 />
+                <p className="mt-2 text-xs text-muted-foreground">Choose an image file from your device.</p>
               </div>
               <button type="submit" className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]">
                 Add service
@@ -286,14 +282,15 @@ function PortfolioPage() {
                 </select>
               </div>
               <div>
-                <label htmlFor="updatedImage" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">New image URL</label>
+                <label htmlFor="updatedImage" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Upload new image</label>
                 <input
                   id="updatedImage"
-                  value={updatedImage}
-                  onChange={(e) => setUpdatedImage(e.target.value)}
-                  placeholder="Leave empty to keep current image"
-                  className="mt-2 w-full rounded-lg border border-border bg-white px-4 py-3 text-sm text-foreground outline-none focus:border-primary"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleUpdatedImageFile}
+                  className="mt-2 w-full rounded-lg border border-border bg-white px-4 py-3 text-sm text-foreground outline-none file:mr-4 file:rounded-full file:border-0 file:bg-primary file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary-foreground focus:border-primary"
                 />
+                <p className="mt-2 text-xs text-muted-foreground">Leave empty to keep the current image.</p>
               </div>
               <button type="submit" className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]">
                 Update item

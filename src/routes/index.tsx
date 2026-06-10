@@ -2,15 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Palette, Globe, Smartphone, Code2, Sparkles, Star, CheckCircle2, MessageSquare, CalendarDays } from "lucide-react";
 import { type FormEvent, useMemo, useState } from "react";
 import { ResponsiveImage } from "../components/responsive-image";
+import { useSiteData } from "../lib/site-data";
 
 import heroBg from "@/assets/images/hero/hero-bg.jpg";
-import workWeb from "@/assets/images/portfolio/work-web.jpg";
-import workMobile from "@/assets/images/portfolio/work-mobile.jpg";
-import workSoftware from "@/assets/images/portfolio/work-software.jpg";
-import refugee2024 from "@/assets/images/portfolio/refugee-2024.jpg";
-import posterGrowBusiness from "@/assets/images/portfolio/poster-grow-business.jpg";
-import posterCreative from "@/assets/images/portfolio/poster-creative.jpg";
-import mothersDay from "@/assets/images/portfolio/mothers-day.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,15 +26,6 @@ const services = [
   { icon: Code2, title: "Software Engineering", desc: "POS, inventory, school, hospital and custom management systems." },
 ];
 
-const works = [
-  { img: refugee2024, title: "World Refugee Day Campaign", tag: "Graphic Design" },
-  { img: posterGrowBusiness, title: "Ri Designs Brand Promo", tag: "Graphic Design" },
-  { img: posterCreative, title: "Creative Designer Poster", tag: "Graphic Design" },
-  { img: mothersDay, title: "Mother's Day Greeting", tag: "Graphic Design" },
-  { img: workWeb, title: "E-Commerce Platform", tag: "Web Development" },
-  { img: workMobile, title: "Fintech App", tag: "Mobile App" },
-  { img: workSoftware, title: "School Management System", tag: "Software" },
-];
 
 const testimonials = [
   { name: "Chimwemwe B.", role: "Boutique Owner", quote: "My new logo and website doubled my orders in two months. Ri Designs gets it." },
@@ -63,6 +48,8 @@ function Index() {
     date: "",
     time: "",
   });
+
+  const { portfolioItems } = useSiteData();
 
   const availableServices = useMemo(
     () => [
@@ -262,7 +249,7 @@ function Index() {
             </Link>
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {works.map((w) => (
+            {portfolioItems.map((w) => (
               <figure key={w.title} className="group overflow-hidden rounded-2xl border border-border bg-background">
                 <div className="aspect-[4/3] overflow-hidden">
                   <ResponsiveImage

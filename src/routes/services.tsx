@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Palette, Globe, Smartphone, Code2, Lightbulb, ArrowRight, MessageSquare, CalendarDays, MessageCircle } from "lucide-react";
+import { useSiteData } from "../lib/site-data";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -65,6 +66,9 @@ const groups = [
 ];
 
 function ServicesPage() {
+  const { services } = useSiteData();
+  const portfolioServices = services.filter((service) => service.id.startsWith("portfolio-service-"));
+
   return (
     <div className="mx-auto max-w-7xl px-6 py-20">
       <p className="text-xs font-semibold uppercase tracking-widest text-primary">Services</p>
@@ -112,6 +116,27 @@ function ServicesPage() {
           </a>
         </div>
       </div>
+      {portfolioServices.length > 0 ? (
+        <section className="mt-16">
+          <div className="flex items-center justify-between gap-6">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary">Added portfolio services</p>
+              <h2 className="mt-2 text-3xl font-black">Recently added portfolio work</h2>
+            </div>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {portfolioServices.map((service) => (
+              <article key={service.id} className="rounded-2xl border border-border bg-card p-6">
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground shadow-[var(--shadow-glow)]">
+                  <service.icon size={22} />
+                </div>
+                <h3 className="mt-5 text-lg font-bold">{service.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.desc}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

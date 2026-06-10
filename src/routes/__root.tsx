@@ -8,6 +8,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import { reportError } from "../lib/error-reporting";
+import { SiteDataProvider } from "../lib/site-data";
 import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
 
@@ -92,14 +93,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
-        <SiteHeader />
-        <main className="flex-1">
-          {/* Required: nested routes render here. */}
-          <Outlet />
-        </main>
-        <SiteFooter />
-      </div>
+      <SiteDataProvider>
+        <div className="flex min-h-screen flex-col">
+          <SiteHeader />
+          <main className="flex-1">
+            {/* Required: nested routes render here. */}
+            <Outlet />
+          </main>
+          <SiteFooter />
+        </div>
+      </SiteDataProvider>
     </QueryClientProvider>
   );
 }
